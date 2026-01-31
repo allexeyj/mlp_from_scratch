@@ -1,6 +1,3 @@
-# README.md
-
-```markdown
 # 🧠 MLP from Scratch: AdamW + Cosine Scheduler
 
 Реализация обучения нейросети **с нуля на NumPy** для понимания того, что происходит под капотом PyTorch.
@@ -272,26 +269,3 @@ print('✅ Backward OK')
 
 ---
 
-## 📚 Ссылки
-
-- [AdamW Paper](https://arxiv.org/abs/1711.05101) — Decoupled Weight Decay Regularization
-- [Cosine Annealing Paper](https://arxiv.org/abs/1608.03983) — SGDR: Stochastic Gradient Descent with Warm Restarts
-- [ViT Paper](https://arxiv.org/abs/2010.11929) — An Image is Worth 16x16 Words
-- [Backpropagation Explained](http://cs231n.stanford.edu/slides/2024/lecture_4.pdf) — CS231n Lecture
-
----
-
-## 📝 License
-
-MIT
-
----
-
-<p align="center">
-  <b>Сделано для понимания того, что скрывается за <code>loss.backward()</code></b>
-</p>
-```
-
----
-
-Готово! Хочешь что-то добавить/изменить — badges, секцию contributing, больше теории?
