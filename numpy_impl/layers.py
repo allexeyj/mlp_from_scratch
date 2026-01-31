@@ -45,6 +45,7 @@ class Linear(Layer):
         # He initialization: var = 2/fan_in
         scale = np.sqrt(2.0 / in_features)
         self.params["W"] = np.random.randn(in_features, out_features) * scale
+        #N(0, 1) *  np.sqrt(2.0 / in_features) ~ N(0, np.sqrt(2.0 / in_features)) - He распределение
         
         if bias:
             self.params["b"] = np.zeros(out_features)
