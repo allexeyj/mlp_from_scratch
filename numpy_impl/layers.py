@@ -114,7 +114,7 @@ class Dropout(Layer):
             return x
         
         # Create mask and scale
-        self.cache["mask"] = (np.random.rand(*x.shape) > self.p) / (1 - self.p)
+        self.cache["mask"] = (np.random.rand(*x.shape) > self.p) / (1 - self.p) #E[out] = E[x] чтобы распределение активаций на тесте и в трейне совпадало
         return x * self.cache["mask"]
     
     def backward(self, dout: np.ndarray) -> np.ndarray:
