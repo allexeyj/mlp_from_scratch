@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List, Dict
 
-from .layers import Linear, Dropout, Layer
+from .layers import Linear, BatchNorm1d, Dropout, Layer
 from .activations import ReLU, GELU
 
 
@@ -68,7 +68,9 @@ class MLP:
     """
     Multi-Layer Perceptron.
     
-    Architecture: Linear -> ReLU -> [Linear -> ReLU ->] ... -> Linear
+    Architecture options:
+        - Without BatchNorm: Linear -> ReLU -> [Dropout] -> ...
+        - With BatchNorm: Linear -> BatchNorm -> ReLU -> [Dropout] -> ...
     """
     
     def __init__(
@@ -77,11 +79,13 @@ class MLP:
         hidden_dims: List[int],
         output_dim: int,
         dropout: float = 0.0,
-        activation: str = "relu"
+        activation: str = "relu",
+        use_batchnorm: bool = False
     ):
         self.input_dim = input_dim
         self.hidden_dims = hidden_dims
         self.output_dim = output_dim
+        self.use_batchnorm = use_batchnorm
         
         # Build layers
         layers = []
@@ -90,12 +94,21 @@ class MLP:
         activation_cls = ReLU if activation == "relu" else GELU
         
         for i in range(len(dims) - 1):
+            # Linear layer
             layers.append(Linear(dims[i], dims[i + 1]))
+            
+            # BatchNorm (before activation)
+            if use_batchnorm:
+                layers.append(BatchNorm1d(dims[i + 1]))
+            
+            # Activation
             layers.append(activation_cls())
+            
+            # Dropout (after activation)
             if dropout > 0:
                 layers.append(Dropout(dropout))
         
-        # Output layer (no activation)
+        # Output layer (no activation, no batchnorm)
         layers.append(Linear(dims[-1], output_dim))
         
         self.model = Sequential(layers)
@@ -120,4 +133,5 @@ class MLP:
     
     def __repr__(self):
         arch = f"{self.input_dim} -> {self.hidden_dims} -> {self.output_dim}"
-        return f"MLP({arch})\n{self.model}"
+        bn_str = ", BatchNorm" if self.use_batchnorm else ""
+        return f"MLP({arch}{bn_str})\n{self.model}"
