@@ -122,7 +122,8 @@ def run_experiment_1():
         input_dim=input_dim,
         hidden_dims=config.hidden_dims,
         output_dim=config.num_classes,
-        dropout=config.dropout
+        dropout=config.dropout,
+        use_batchnorm=config.use_batchnorm
     )
     print(model)
 
