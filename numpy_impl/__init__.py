@@ -1,4 +1,4 @@
-from .layers import Layer, Linear, Dropout
+from .layers import Layer, Linear, BatchNorm1d, Dropout
 from .activations import ReLU, GELU, Softmax
 from .losses import CrossEntropyLoss, compute_accuracy
 from .model import MLP, Sequential
@@ -9,6 +9,7 @@ __all__ = [
     # layers / containers
     "Layer",
     "Linear",
+    "BatchNorm1d",
     "Dropout",
     "Sequential",
     "MLP",
