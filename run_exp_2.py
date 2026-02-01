@@ -13,7 +13,8 @@ import wandb
 
 from config import get_config
 from data import load_or_extract_embeddings
-from torch_impl import TorchMLP, TorchTrainer, create_dataloaders
+from torch_impl import TorchMLP, TorchTrainer
+from torch_impl.trainer import create_dataloaders
 
 
 def run_experiment_2():
@@ -62,7 +63,8 @@ def run_experiment_2():
         input_dim=input_dim,
         hidden_dims=config.hidden_dims,
         output_dim=config.num_classes,
-        dropout=config.dropout
+        dropout=config.dropout,
+        use_batchnorm=config.use_batchnorm
     )
     print(model)
 
@@ -83,12 +85,11 @@ def run_experiment_2():
     if warmup_steps > 0:
         warmup_scheduler = LinearLR(
             optimizer,
-            start_factor=config.warmup_start_factor,  # > 0
+            start_factor=config.warmup_start_factor,
             end_factor=1.0,
             total_iters=warmup_steps
         )
 
-        # If warmup consumes all steps, just keep warmup (no cosine part)
         cosine_steps = max(0, total_steps - warmup_steps)
         if cosine_steps > 0:
             cosine_scheduler = CosineAnnealingLR(
