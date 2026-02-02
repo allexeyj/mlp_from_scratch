@@ -12,7 +12,7 @@ class Config:
     # Model
     hidden_dims: List[int] = field(default_factory=lambda: [512, 256])
     dropout: float = 0.0
-    use_batchnorm: bool = False  # NEW: Enable BatchNorm
+    use_batchnorm: bool = True  # NEW: Enable BatchNorm
 
     # Training
     epochs: int = 30
